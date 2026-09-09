@@ -1,7 +1,6 @@
 from airflow.sdk import dag,task
-airflow.providers.standard.operators.python.PythonOperator
-airflow.providers.standard.operators.bash.BashOperator
-
+from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 def first_task_func():
     return "Hello from python_task_1"
 
