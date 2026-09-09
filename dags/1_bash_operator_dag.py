@@ -1,6 +1,6 @@
 from airflow.sdk import dag,task
-from airflow.operators.bash import BashOperator
-from airflow.operators.python import PythonOperator
+airflow.providers.standard.operators.python.PythonOperator
+airflow.providers.standard.operators.bash.BashOperator
 
 @dag(dag_id="bash_operator_dag" ,catchup=False)
 
