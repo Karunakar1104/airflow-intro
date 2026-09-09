@@ -1,7 +1,7 @@
 from airflow.sdk import dag, task
 
-@dag(dag_id="xcoms_kwargs_manual_dag", catchup=False)
-def xcoms_kwargs_manual_dag():
+@dag(dag_id="xcoms_manual_dag", catchup=False)
+def xcoms_manual_dag():
     
     @task.python
     def fetch_data(ti):
@@ -25,4 +25,4 @@ def xcoms_kwargs_manual_dag():
 
     fetch_data() >> process_data() >> bash_task()
 
-first_dag_instance = xcoms_kwargs_manual_dag()
+first_dag_instance = xcoms_manual_dag()
