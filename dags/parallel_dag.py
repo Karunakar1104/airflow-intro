@@ -1,6 +1,14 @@
 from airflow.sdk import dag, task
+import datetime
+import pendulum
 
-@dag
+@dag()
+#dag_id="parallel_dag",
+#schedule=None,
+#start_date="2026-09-01",
+#end_date="2026-09-30",
+#catchup=False,
+#tags=["Testing dag for parallel tasks"]
 def parallel_dag():
 
     @task.bash
