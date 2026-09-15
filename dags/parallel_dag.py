@@ -1,5 +1,5 @@
 from airflow.sdk import dag, task
-import datetime
+from datetime import datetime
 import pendulum
 
 @dag()
