@@ -25,7 +25,11 @@ def parallel_dag_rec():
         return data
 
     @task.python
-    def process_data(api_data, db_data, gcs_data):
+    def process_data(ti):
+        api_data = ti.xcom_pull(task_ids="api_data")
+        db_data = ti.xcom_pull(task_ids="db_data")
+        gcs_data = ti.xcom_pull(task_ids="gcs_data")
+
         print("Processing data from API:", api_data)
         print("Processing data from DB:", db_data)
         print("Processing data from GCS:", gcs_data)
@@ -34,9 +38,9 @@ def parallel_dag_rec():
     api_data = api_data()
     db_data = db_data()
     gcs_data = gcs_data()
-    process_data = process_data(api_data, db_data, gcs_data)
+    #process_data = process_data(api_data, db_data, gcs_data)
 
     # Define the task dependencies
-    task_bash >> [api_data, db_data, gcs_data] >> process_data
+    task_bash >> [api_data, db_data, gcs_data] >> process_data()
 
 parallel_dag_instance = parallel_dag_rec()
