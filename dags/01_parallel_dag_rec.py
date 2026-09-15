@@ -3,9 +3,8 @@ from datetime import datetime
 import pendulum
 
 @dag()
-
 def parallel_dag_rec():
-
+    
     @task.bash
     def task_bash():
         return 'echo "This is a bash task"'
@@ -30,7 +29,6 @@ def parallel_dag_rec():
         print("Processing data from API:", api_data)
         print("Processing data from DB:", db_data)
         print("Processing data from GCS:", gcs_data)
-
 
     task_bash = task_bash()
     api_data = api_data()
