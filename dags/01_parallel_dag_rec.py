@@ -26,9 +26,9 @@ def parallel_dag_rec():
 
     @task.python
     def process_data(ti):
-        api_data = ti.xcom_pull(task_ids="api_data")
-        db_data = ti.xcom_pull(task_ids="db_data")
-        gcs_data = ti.xcom_pull(task_ids="gcs_data")
+        api_data = ti.xcom_pull(task_ids="api_data",key="return_value")
+        db_data = ti.xcom_pull(task_ids="db_data",key="return_value")
+        gcs_data = ti.xcom_pull(task_ids="gcs_data",key="return_value")
 
         print("Processing data from API:", api_data)
         print("Processing data from DB:", db_data)
