@@ -6,7 +6,7 @@ def conditional_dag():
     @task.bash
     def task_bash():
         return "echo 'Hello from Bash'"
-    
+
     @task.python
     def fetch_api():
         data = {"type": "api", "data": ["data1", "data2", "data3"]}
@@ -16,25 +16,24 @@ def conditional_dag():
     def fetch_db():
         data = {"type": "db", "data": ["data4", "data5", "data6"]}
         return data
-    
+
     @task.python
     def fetch_s3():
         data = {"type": "s3", "data": ["data7", "data8", "data9"]}
         return data
-    
+
     @task.python
     def process_data(ti):
         api_data = ti.xcom_pull(task_ids='fetch_api', key='return_value')
         db_data = ti.xcom_pull(task_ids='fetch_db', key='return_value')
         s3_data = ti.xcom_pull(task_ids='fetch_s3', key='return_value')
-        
+
         print("Processing API Data:", api_data)
         print("Processing DB Data:", db_data)
         print("Processing S3 Data:", s3_data)
 
         processed_data = api_data['data'] + db_data['data'] + s3_data['data']
         return processed_data
-
     
     @task.branch
     def load_data_branch(ti):
@@ -56,9 +55,7 @@ def conditional_dag():
         data_to_load = ti.xcom_pull(task_ids='process_data', key='return_value')
         print("Loading data to Glue:", data_to_load)
 
-
     # Define task dependencies
     task_bash() >> [fetch_api(), fetch_db(), fetch_s3()] >> process_data() >> load_data_branch() >> [s3_load(), glue_load()]
-
 
 conditional_dag_rec = conditional_dag()
