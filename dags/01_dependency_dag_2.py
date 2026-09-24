@@ -1,5 +1,5 @@
 from airflow.sdk import dag, task
-from airflow.utils.triggerrule import TriggerRule
+from airflow.utils.trigger_rule import TriggerRule
 
 @dag(dag_id="dependency_dag_2")
 def dependency_dag_2():
