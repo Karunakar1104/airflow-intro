@@ -1,4 +1,5 @@
 from airflow.sdk import dag, task
+import os
 
 @dag(dag_id="first_child_dag")
 def first_child_dag():
@@ -17,8 +18,15 @@ def first_child_dag():
 
     @task(task_id = "task_4")
     def task_4():
-        print("message from task_4")
+        # Creating a deirectory if it doesn't exist
+        os.makedirs("/tmp/data", exist_ok=True)
+
+        # Writing a message to a file
+        with open("/tmp/data/output_first.txt", "w") as f:
+            f.write("Hello from task_4 in the first_child_dag!")
 
 # Define the task dependencies
+
     task_1() >> [task_2(), task_3()] >> task_4()
+
 first_child_dag_instance = first_child_dag()
